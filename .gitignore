@@ -1,0 +1,7 @@
+*.class
+/ASTRAL-modified/main/test_data/*
+/ASTRAL-modified/astral*jar
+/ASTRAL-modified/old/*
+__pycache__/
+run/*
+!run/README.md
