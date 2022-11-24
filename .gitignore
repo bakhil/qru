@@ -3,5 +3,5 @@
 /ASTRAL-modified/astral*jar
 /ASTRAL-modified/old/*
 __pycache__/
-run/*
+/junk/*
 !run/README.md
