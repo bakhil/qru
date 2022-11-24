@@ -86,5 +86,5 @@ if __name__ == '__main__':
         print(f'\rDone with {datasetNum+1}/{len(datasets)}..', end='')
     print()
     with open(args.output, 'wb') as outputFile:
-        pickle.dump(outputData, outputFle)
+        pickle.dump(outputData, outputFile)
 
