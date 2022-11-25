@@ -11,8 +11,10 @@ import sys
 from table_five import TreeSet
 import subprocess
 import re
+import os
 
-sys.path.append('Quintet_Rooting')
+script_path = os.path.join(os.path.realpath(__file__).rsplit("/", 1)[0], 'Quintet_Rooting')
+sys.path.append(script_path)
 from qr.adr_theory import *
 from qr.fitness_cost import *
 from qr.quintet_sampling import *
@@ -24,7 +26,7 @@ NAME_OF_ROOT = 'ROOTLEAFTOINSERT'
 def main(args):
     st_time = time.time()
     # !! Change path to script for reading ADR quintets
-    script_path = os.path.join(os.path.realpath(__file__).rsplit("/", 1)[0], 'Quintet_Rooting')
+    #script_path = os.path.join(os.path.realpath(__file__).rsplit("/", 1)[0], 'Quintet_Rooting')
 
     # input args
     species_tree_path = args.speciestree
@@ -43,7 +45,8 @@ def main(args):
     #astral_bipartition_filename = os.path.join(junkFolder, 'astral_bipartitions.tre')
 
     # !! Define the path to ASTRAL executable
-    astral_path = args.astralpath
+    parent_path = os.path.realpath(__file__).rsplit("/", 1)[0]
+    astral_path = os.path.join(parent_path, args.astralpath)
 
     # !! Commented out header
     '''
