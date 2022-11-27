@@ -32,7 +32,7 @@ Also, the `-cfs` option of QR does not work for QRU.
 
 **Output:** A file containing the rooted species tree in newick format 
 ```
-$ python3 quintet_rooting.py -t <species-topology.tre> -g <input-genes.tre> -o <output-tree.tre>
+$ python3 qru.py -t <species-topology.tre> -g <input-genes.tre> -o <output-tree.tre>
 ```
 **Arguments**
 - **Required**
