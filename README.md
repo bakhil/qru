@@ -16,8 +16,6 @@ You also need `dendropy`, `table-five`, and `numpy` for running QRU (these can b
 You can also find a few scripts on the `scripts` branch of this repository.
 You might find them useful for iterating over the [QR-paper](https://github.com/ytabatabaee/QR-paper) datasets,
 computing error metrics over the datasets, and plotting.
-You'll also find a PDF report describing this work in more detail on that branch.
-(This was done in Fall 2022 as a course project for [CS581 at UIUC](http://tandy.cs.illinois.edu/CS581-Fa2022-short.html).)
 
 QRU uses the same input-output format as QR.
 There just one additional optional argument for specifying a path
