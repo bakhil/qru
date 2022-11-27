@@ -25,8 +25,6 @@ NAME_OF_ROOT = 'ROOTLEAFTOINSERT'
 
 def main(args):
     st_time = time.time()
-    # !! Change path to script for reading ADR quintets
-    #script_path = os.path.join(os.path.realpath(__file__).rsplit("/", 1)[0], 'Quintet_Rooting')
 
     # input args
     species_tree_path = args.speciestree
@@ -38,11 +36,6 @@ def main(args):
     shape_coef = args.coef
     mult_le = args.multiplicity
     abratio = args.abratio
-
-    ## !! folder for writing junk files - and other filenames
-    #junkFolder = args.junk
-    #astral_input_filename = os.path.join(junkFolder, 'astral_input.tre')
-    #astral_bipartition_filename = os.path.join(junkFolder, 'astral_bipartitions.tre')
 
     # !! Define the path to ASTRAL executable
     parent_path = os.path.realpath(__file__).rsplit("/", 1)[0]
@@ -169,6 +162,7 @@ def main(args):
         rooted_quintets_from_samples.append(rooted_candidates[min_idx])
 
     # !! Write to input and bipartition files for ASTRAL
+    # !! store as strings for fast(?) processing and avoid clutter
     astral_input_str = ''
     for tree in rooted_quintets_from_samples:
         outputStr = '(' + str(tree) + ',' + NAME_OF_ROOT + ');\n'
@@ -339,12 +333,9 @@ def parse_args():
     parser.add_argument("-rs", "--seed", type=int,
                         help="random seed", required=False, default=1234)
 
-    parser.add_argument('-j', '--junk', type=str,
-                        help='Folder for writing temporary files',
-                        required=False, default='junk')
-
     parser.add_argument('-apath', '--astralpath', type=str,
-                        default='ASTRAL-modified/astral.5.7.3.modified.jar', required=False)
+                        default='ASTRAL-modified/astral.5.7.3.modified.jar', required=False,
+                        help='Path to ASTRAL executable, relative to qru.py')
     args = parser.parse_args()
     return args
 

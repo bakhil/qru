@@ -4,4 +4,4 @@
 /ASTRAL-modified/old/*
 __pycache__/
 /junk/*
-!run/README.md
+/scripts/*.pdf

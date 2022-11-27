@@ -53,7 +53,7 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
 
-    datasets = list([str(i)+'_taxon' for i in [5, 10, 15, 20, 25, 30]])
+    datasets = list([str(i)+'_taxon' for i in [5, 10, 15]])
     gteeList = ['true', '1500', '1000', '500', '250']
     nReplicates = 20
     outputData = {}
