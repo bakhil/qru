@@ -50,13 +50,18 @@ if __name__ == '__main__':
                         help='True (rooted) species trees folder')
     parser.add_argument('-o', '--output', type=str, required=True,
                         help='File to write output data')
+    parser.add_argument('--taxa', type=str, required=True, help='List of taxa datasets')
     
     args = parser.parse_args()
 
-    datasets = list([str(i)+'_taxon' for i in [5, 10, 15]])
+    datasets = list([str(i)+'_taxon' for i in args.taxa.split(',')])
     gteeList = ['true', '1500', '1000', '500', '250']
     nReplicates = 20
-    outputData = {}
+    try:
+        with open(args.output, 'rb') as outputFile:
+            outputData = pickle.load(outputFile)
+    except:
+        outputData = {}
     for datasetNum,dataset in enumerate(datasets):
         trueTreePath = os.path.join(args.truetrees, dataset)
         truePathList = list(Path().glob(trueTreePath + '/**/model-species.tre'))

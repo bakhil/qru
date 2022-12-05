@@ -5,6 +5,7 @@ plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rc('text.latex', preamble=r'\usepackage{amsmath}\usepackage{amsfonts}\usepackage{amssymb}')
 import numpy as np
+import scipy.stats as sps
 import pickle
 
 '''
@@ -34,9 +35,9 @@ if __name__ == '__main__':
             errorVal = np.zeros(len(gteeList))
             for i,gtee in enumerate(gteeList):
                 meanVal[i] = np.mean(bestOutputData[dataset][gtee])
-                errorVal[i] = np.std(bestOutputData[dataset][gtee])
-            plt.errorbar(xList-0.2, meanVal, yerr=errorVal, fmt='o', color='black',
-                            ecolor='lightgray', elinewidth=3, capsize=0, label='best rooting of ASTRAL')
+                errorVal[i] = sps.sem(bestOutputData[dataset][gtee], axis=None)
+            plt.errorbar(xList-0.2, meanVal, yerr=errorVal, fmt='_', color='black', ms=14, mew=1.5,
+                            ecolor='gray', elinewidth=3, capsize=0, label='best rooting of ASTRAL')
         except:
             pass
         try:
@@ -44,9 +45,9 @@ if __name__ == '__main__':
             errorVal = np.zeros(len(gteeList))
             for i,gtee in enumerate(gteeList):
                 meanVal[i] = np.mean(qrleData[dataset][gtee])
-                errorVal[i] = np.std(qrleData[dataset][gtee])
-            plt.errorbar(xList+0.2, meanVal, yerr=errorVal, fmt='o', color='red',
-                            ecolor='lightgray', elinewidth=3, capsize=0, label='QR (with ASTRAL trees)')
+                errorVal[i] = sps.sem(qrleData[dataset][gtee], axis=None)
+            plt.errorbar(xList+0.2, meanVal, yerr=errorVal, fmt='_', color='red', ms=14, mew=1.5,
+                            ecolor='gray', elinewidth=3, capsize=0, label='QR (with ASTRAL trees)')
         except:
             pass
         try:
@@ -54,9 +55,9 @@ if __name__ == '__main__':
             errorVal = np.zeros(len(gteeList))
             for i,gtee in enumerate(gteeList):
                 meanVal[i] = np.mean(qruData[dataset][gtee])
-                errorVal[i] = np.std(qruData[dataset][gtee])
-            plt.errorbar(xList, meanVal, yerr=errorVal, fmt='o', color='blue',
-                            ecolor='lightgray', elinewidth=3, capsize=0, label='QRU (with ASTRAL trees)')
+                errorVal[i] = sps.sem(qruData[dataset][gtee], axis=None)
+            plt.errorbar(xList, meanVal, yerr=errorVal, fmt='_', color='blue', ms=14, mew=1.5,
+                            ecolor='gray', elinewidth=3, capsize=0, label='QRU (with ASTRAL trees)')
         except:
             pass
         #plt.grid()

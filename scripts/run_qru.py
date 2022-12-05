@@ -45,8 +45,9 @@ if __name__ == '__main__':
                     outputParent = Path(outputFile).parent
                     outputParent.mkdir(parents=True, exist_ok=True)
 
-                    cmd = f'python {args.qpath} -t {speciesFile} -g {geneFile} -o {outputFile}'
-                    # TODO: check return code of below command to see if 
-                    # exception was raised by qru
-                    os.system(cmd)
+                    cmd = f'python {args.qpath} -t {speciesFile} -g {geneFile} -o {outputFile} 1>/dev/null'
+
+                    retValue = os.system(cmd)
+                    if retValue != 0:
+                        print(f'Error running the following command:\n{cmd}')
 
