@@ -28,52 +28,42 @@ if __name__ == '__main__':
     gteeList = ['true', '1500', '1000', '500', '250']
     xList = np.array([0.5, 1.5, 2.5, 3.5, 4.5])
     yhighs = [0.65, 0.65, 0.65]
+    legendPltsList, legendStrList = [], []
+    boxWidth = 0.16
     for datasetNum,dataset in enumerate(datasets):
-        plt.figure()
-        try:
-            meanVal = np.zeros(len(gteeList))
-            errorVal = np.zeros(len(gteeList))
-            for i,gtee in enumerate(gteeList):
-                meanVal[i] = np.mean(bestOutputData[dataset][gtee])
-                errorVal[i] = sps.sem(bestOutputData[dataset][gtee], axis=None)
-            plt.errorbar(xList-0.2, meanVal, yerr=errorVal, fmt='_', color='black', ms=14, mew=1.5,
-                            ecolor='gray', elinewidth=3, capsize=0, label='best rooting of ASTRAL')
-        except:
-            pass
-        try:
-            meanVal = np.zeros(len(gteeList))
-            errorVal = np.zeros(len(gteeList))
-            for i,gtee in enumerate(gteeList):
-                meanVal[i] = np.mean(qrleData[dataset][gtee])
-                errorVal[i] = sps.sem(qrleData[dataset][gtee], axis=None)
-            plt.errorbar(xList+0.2, meanVal, yerr=errorVal, fmt='_', color='red', ms=14, mew=1.5,
-                            ecolor='gray', elinewidth=3, capsize=0, label='QR (with ASTRAL trees)')
-        except:
-            pass
-        try:
-            meanVal = np.zeros(len(gteeList))
-            errorVal = np.zeros(len(gteeList))
-            for i,gtee in enumerate(gteeList):
-                meanVal[i] = np.mean(qruData[dataset][gtee])
-                errorVal[i] = sps.sem(qruData[dataset][gtee], axis=None)
-            plt.errorbar(xList, meanVal, yerr=errorVal, fmt='_', color='blue', ms=14, mew=1.5,
-                            ecolor='gray', elinewidth=3, capsize=0, label='QRU (with ASTRAL trees)')
-        except:
-            pass
-        #plt.grid()
-        plt.title(f'{dataset[:-6]}-taxon data', fontsize='x-large')
+        fig, ax = plt.subplots()
+        legendPltsList, legendStrList = [], []
+        def add_plot(data, shift, boxcolor, meancolor, legendStr):
+            try:
+                retPlt = ax.boxplot([data[gtee] for gtee in gteeList],
+                                    positions=xList+shift, showmeans=True, meanline=True,
+                                    patch_artist=True, widths=boxWidth,
+                                    boxprops=dict(facecolor=boxcolor, color=meancolor),
+                                    meanprops=dict(color=meancolor, linestyle='-'),
+                                    medianprops=dict(linewidth=0))
+                legendPltsList.append(retPlt['boxes'][0])
+                legendStrList.append(legendStr)
+            except Exception as e:
+                print(e)
+            return
+        add_plot(bestOutputData[dataset], -0.2, 'lightgray', 'black', 'best rooting of ASTRAL')
+        add_plot(qrleData[dataset], 0.2, 'cyan', 'navy', 'QR (with ASTRAL trees)')
+        add_plot(qruData[dataset], 0., 'tan', 'darkred', 'QRU (with ASTRAL trees)')
+
+        ax.set_title(f'{dataset[:-6]}-taxon data', fontsize='x-large')
         tickLabels = ['true']
         for gtee in gteeList[1:]:
             tickLabels.append(f'$L={gtee}$')
         dividers = 0.5*(xList[1:] + xList[:-1])
         for val in dividers:
-            plt.plot([val, val], [-0.1, np.max(yhighs)+0.1], 'k--', linewidth=0.5)
-        plt.xticks(ticks=xList, labels=tickLabels)
-        plt.xlim([0., 5.])
-        plt.ylim([0., yhighs[datasetNum]])
-        plt.tick_params(top=False, bottom=False, left=True, right=False, labelsize='x-large')
-        plt.ylabel(r'Clade distance', fontsize='large')
-        plt.xlabel(r'(Length of MSA for gene-tree estimation)', fontsize='large')
-        plt.legend(fontsize='large', loc='upper left', framealpha=1.0)
+            ax.plot([val, val], [-0.1, np.max(yhighs)+0.1], 'k--', linewidth=0.5)
+        ax.legend(legendPltsList, legendStrList, fontsize='large', loc='upper left', framealpha=1.0)
+        ax.set_xticks(ticks=xList)
+        ax.set_xticklabels(labels=tickLabels)
+        ax.set_xlim([0., 5.])
+        ax.set_ylim([0., yhighs[datasetNum]])
+        ax.tick_params(top=False, bottom=False, left=True, right=False, labelsize='x-large')
+        ax.set_ylabel(r'Clade distance', fontsize='large')
+        ax.set_xlabel(r'(Length of MSA for gene-tree estimation)', fontsize='large')
         plt.savefig(f'{dataset}-plot.pdf')
 
